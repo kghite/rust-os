@@ -1,0 +1,12 @@
+[package]
+name = "diy_os"
+version = "0.1.0"
+authors = ["kghite <kghite@gmail.com>"]
+
+[dependencies]
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
