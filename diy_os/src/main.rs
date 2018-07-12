@@ -2,28 +2,27 @@
 #![no_std]
 #![no_main]
 
+#[macro_use]
+extern crate lazy_static;
+extern crate volatile;
+extern crate spin;
+
+#[macro_use]
+mod vga_buffer;
+
 use core::panic::PanicInfo;
 
-// Called on panic
-#[panic_implementation]
+// Linker entry point
 #[no_mangle]
-pub fn panic(_info: &PanicInfo) -> ! {
+pub extern "C" fn _start() -> ! {
+    println!("Hello World{}", "!");
     loop {}
 }
 
-// Linker entry point
-static HELLO: &[u8] = b"Hello World!";
-
+// Catch panics
+#[panic_implementation]
 #[no_mangle]
-pub extern "C" fn _start() -> ! {
-    let vga_buffer = 0xb8000 as *mut u8;
-
-    for (i, &byte) in HELLO.iter().enumerate() {
-        unsafe {
-            *vga_buffer.offset(i as isize * 2) = byte;
-            *vga_buffer.offset(i as isize * 2 + 1) = 0xb;
-        }
-    }
-
+pub fn panic(info: &PanicInfo) -> ! {
+    println!("{}", info);
     loop {}
 }
