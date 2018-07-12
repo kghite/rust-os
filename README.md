@@ -5,13 +5,7 @@ Basic OS built in Rust
 
 Build: `bootimage build`
 
-Run with QEMU virtual machine:
-```
-bootimage run -- \
-    -serial mon:stdio \
-    -device isa-debug-exit,iobase=0xf4,iosize=0x04 \
-    -display none
-```
+Run with QEMU virtual machine: `bootimage run`
 
 Run unit tests: `cargo test`
 
