@@ -7,21 +7,27 @@
 extern crate diy_os;
 
 use core::panic::PanicInfo;
+use diy_os::exit_qemu;
 
-// Linker entry point
 #[cfg(not(test))]
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
-    println!("Hello World{}", "!");
+    serial_println!("ok");
 
+    unsafe { exit_qemu(); }
     loop {}
 }
 
-// Called on panic
+
+// Called on panic.
 #[cfg(not(test))]
 #[panic_implementation]
 #[no_mangle]
 pub fn panic(info: &PanicInfo) -> ! {
-    println!("{}", info);
+    serial_println!("failed");
+
+    serial_println!("{}", info);
+
+    unsafe { exit_qemu(); }
     loop {}
 }
